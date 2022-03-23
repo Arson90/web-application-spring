@@ -1,13 +1,9 @@
 package com.example.webapplicationspring.controller;
 
-import com.example.webapplicationspring.data.Value;
 import com.example.webapplicationspring.service.ValueService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class ValueController {
@@ -19,13 +15,24 @@ public class ValueController {
         this.valueService = valueService;
     }
 
-    @GetMapping(value = "/unique-value/{columnName}")
-    public List<Value> getUniqueValues(@PathVariable String columnName) {
-        return valueService.findAllDistinctValues(columnName);
+    @GetMapping("/")
+    public ModelAndView getHello() {
+        return new ModelAndView("hello");
     }
 
-    @GetMapping(value = "/duplicate-value/{columnName}")
-    public List<Value> getDuplicateValues(@PathVariable String columnName) {
-        return valueService.findAllDuplicateValues(columnName);
+    @PostMapping(value = "/unique-value")
+    public ModelAndView getUniqueValues(@RequestParam String columnName) {
+        ModelAndView modelAndView = new ModelAndView("list");
+        modelAndView.addObject("data", valueService.findAllDistinctValues(columnName));
+        return modelAndView;
     }
+
+    @PostMapping(value = "/duplicate-value")
+    public ModelAndView getDuplicateValues(@RequestParam String columnName) {
+        ModelAndView modelAndView = new ModelAndView("list");
+        modelAndView.addObject("data", valueService.findAllDuplicateValues(columnName));
+        return modelAndView;
+    }
+
+
 }
