@@ -14,7 +14,6 @@ public class ValueRepository implements ValueDAO {
 
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public ValueRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
